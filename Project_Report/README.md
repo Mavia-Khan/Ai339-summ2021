@@ -1,6 +1,6 @@
-CODE 
+**CODE** 
 
-"import numpy as np
+import numpy as np
 from sklearn import cross_validation
 from sklearn import datasets
 from sklearn import svm
@@ -45,12 +45,12 @@ y_pred = predict(classifier, newdata = test_set_sub)
 library(caret)
 confusionMatrix(table(y_pred, test_set[, 2])) 
 output = pd.DataFrame({'PassengerId': titanic_test.index,'Survived': y_test_pred})
-output.to_csv('SVM-TitanicSurvival.csv',index=False)"
+output.to_csv('SVM-TitanicSurvival.csv',index=False)
 
 "Support Vector Machine (SVM) is a supervised machine learning algorithm capable of performing classification, regression and even outlier detection. The linear SVM classifier works by drawing a straight line between two classes."
 
 
-"import numpy as np # linear algebra
+import numpy as np # linear algebra
 import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
 import matplotlib.pyplot as plt
 %matplotlib inline
@@ -92,11 +92,11 @@ print(titanic_train.loc[titanic_train.Title=='Mr',:].Age.describe([]))
 train_dummy = pd.get_dummies(titanic_train[['Sex','Title']],drop_first=True)
 test_dummy = pd.get_dummies(titanic_test[['Sex','Title']],drop_first=True)
 output = pd.DataFrame({'PassengerId': titanic_test.index,'Survived': y_test_pred})
-output.to_csv('Submission-KNN-Muneeb.csv',index=False)"
+output.to_csv('Submission-KNN-Muneeb.csv',index=False)
 
 " It is the learning where the value or result that we want to predict is within the training data (labeled data) and the value which is in data that we want to study is known as Target or Dependent Variable or Response Variable."
 
-"import numpy as np # linear algebra
+import numpy as np # linear algebra
 import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
 import tensorflow as tf
 import os
@@ -131,7 +131,7 @@ linear_est.train(train_input_fn)
 result = linear_est.evaluate(eval_input_fn)
 print(result)
 output = pd.DataFrame({'PassengerId': titanic_test.index,'Survived': y_test_pred})
-output.to_csv('Linear-Submission.csv',index=False)"
+output.to_csv('Linear-Submission.csv',index=False)
 
 
 "Linear classifiers classify data into labels based on a linear combination of input features. Therefore, these classifiers separate data using a line or plane or a hyperplane (a plane in more than 2 dimensions). They can only be used to classify data that is linearly separable."
