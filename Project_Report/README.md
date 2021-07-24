@@ -1,6 +1,6 @@
 CODE 
 
-import numpy as np
+"import numpy as np
 from sklearn import cross_validation
 from sklearn import datasets
 from sklearn import svm
@@ -45,7 +45,7 @@ y_pred = predict(classifier, newdata = test_set_sub)
 library(caret)
 confusionMatrix(table(y_pred, test_set[, 2])) 
 output = pd.DataFrame({'PassengerId': titanic_test.index,'Survived': y_test_pred})
-output.to_csv('SVM-TitanicSurvival.csv',index=False)
+output.to_csv('SVM-TitanicSurvival.csv',index=False)"
 
 "Support Vector Machine (SVM) is a supervised machine learning algorithm capable of performing classification, regression and even outlier detection. The linear SVM classifier works by drawing a straight line between two classes."
 
