@@ -1,27 +1,19 @@
 CODE
-
 import numpy as np
 from sklearn import cross_validation
 from sklearn import datasets
 from sklearn import svm
-
 setwd("D:/Kaggle Datasets/titanic")
 training_set = read.csv("Train.csv")
 test_set = read.csv("test.csv")
- 
 test_setSurvived = NA
- 
 complete_data = rbind(training_set, test_set)
- 
 library(Amelia)
 missmap(complete_data, main = "Missing value map")
- 
 complete_dataAge[is.na(complete_dataAge)] <- median(complete_dataAge, na.rm=T)
 complete_dataEmbarked[complete_dataEmbarked==""] <- "S"
- 
 drop <- c("Ticket","Name","Cabin")
-df = complete_data[,!(names(complete_data) %in% drop)]
- 
+df = complete_data[,!(names(complete_data) %in% drop)] 
 for (i in c("Survived","Pclass","Sex","Embarked")){
   df[,i]=as.factor(df[,i])
 } 
@@ -55,7 +47,6 @@ import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
 import matplotlib.pyplot as plt
 %matplotlib inline
 import seaborn as sns
-
 # Input data files are available in the read-only "../input/" directory
 # For example, running this (by clicking run or pressing Shift+Enter) will list all files under the input directory
 import os
@@ -69,15 +60,12 @@ titanic_test.head()
 titanic_train.loc[:,'Survived'].sum()/len(titanic_train.loc[:,'Survived'])*100
 titanic_train.isna().sum()
 vars = ['Pclass','Sex','SibSp','Parch','Embarked']
-
 i=1
 fig=plt.figure()
-
 for var in vars:
     sns.countplot(data=titanic_train,x=var,hue='Survived')
     plt.show()
 sns.displot(data=titanic_train,x='Age',hue='Survived',multiple='stack',bins=8)
-
 sns.displot(data=titanic_train,x='Fare',hue='Survived',multiple='stack',bins=10)
 plt.show()
 titanic_train.Cabin.fillna('NA',inplace=True)
@@ -133,5 +121,89 @@ print(result)
 output = pd.DataFrame({'PassengerId': titanic_test.index,'Survived': y_test_pred})
 output.to_csv('Linear-Submission.csv',index=False)
 
-
 "Linear classifiers classify data into labels based on a linear combination of input features. Therefore, these classifiers separate data using a line or plane or a hyperplane (a plane in more than 2 dimensions). They can only be used to classify data that is linearly separable."
+
+
+ANOTHER METHOD WE APPLY 
+
+import pandas as pd 
+from sklearn import linear_model
+trainData = pd.read_csv('train.csv') 
+testData = pd.read_csv('test.csv')
+YTrain = trainData.Survived; trainData.drop('Survived',inplace=True,axis=1)
+trainData.drop('Name',inplace=True,axis=1) 
+trainData.drop('Cabin',inplace=True,axis=1) 
+trainData.drop('Ticket',inplace=True,axis=1) 
+testData.drop('Name',inplace=True,axis=1) 
+testData.drop('Cabin',inplace=True,axis=1) 
+testData.drop('Ticket',inplace=True,axis=1)
+trainData["Sex"] = trainData["Sex"].replace(['female','male'],[0,1]) 
+testData["Sex"] = testData["Sex"].replace(['female','male'],[0,1]) 
+trainData["Embarked"] = trainData["Embarked"].replace(['S','Q','C'],[0,1,2]) 
+testData["Embarked"] = testData["Embarked"].replace(['S','Q','C'],[0,1,2])
+trainData.fillna(value=0,inplace=True)
+testData.fillna(value=trainData['Age'].mean(),inplace=True) 
+testData.fillna(value=trainData['Fare'].mean(),inplace=True)
+print(YTrain.shape)
+print(trainData) 
+print(testData.shape)
+mnb = linear_model.Lasso(alpha=1) 
+mnb.fit(trainData,YTrain)
+predictions = mnb.predict(testData) 
+print(predictions.shape)
+mnb = MultinomialNB() 
+mnb.fit(p1_train, p2_train) 
+pred = mnb.predict(X_test) 
+acc_mnb = round(mnb.score(p1_train, p2_train) * 100, 2) 
+print("Mul_NB accuracy =",round(acc_mnb,2,), "%") 
+print(pred.shape) 
+print(pred)
+submission = pd.DataFrame({ "PassengerId": test_df["PassengerId"], "Survived": pred }) 
+submission.to_csv('submission.csv', index=False)
+Mul = MultinomialNB()
+scores = cross_val_score(Mul, p1_train, train, cv=10, scoring = "accuracy") 
+print("Scores:\n", pd.Series(scores)) 
+print("Mean:", scores.mean()) 
+print("Stand_Dviatn:", scores.std())
+logreg = LogisticRegression()
+logreg.fit(p1_train, p2_train)
+pred = logreg.predict(X_test)
+acc_log = round(logreg.score(p1_train, p2_train) * 100, 2)
+print("Logistic_Regression accuracy =",round(acc_log,2,), "%") 
+print(pred.shape)
+print(pred)
+submission = pd.DataFrame({ "PassengerId": test_df["PassengerId"], "Survived": pred }) 
+submission.to_csv('Linear-submission.csv', index=False)
+logreg = LogisticRegression() 
+scores = cross_val_score(logreg, p1_train, p2_train, cv=10, scoring = "accuracy") 
+print("Scores:\n", pd.Series(scores)) 
+print("Mean:", scores.mean())
+print("Standard Deviation:", scores.std())
+knn = KNeighborsClassifier(n_neighbors = 3) 
+knn.fit(p1_train, p2_train)
+pred = knn.predict(p1_test) 
+acc_knn = round(knn.score(p1_train, p2_train) * 100, 2) 
+print("kNN accuracy =",round(acc_knn,2,), "%") 
+print(pred.shape) 
+print(pred)
+submission = pd.DataFrame({ "PassengerId": test_df["PassengerId"], "Survived": pred }) 
+submission.to_csv('Submission-KNN-Muneeb.csv', index=False)
+knn = KNeighborsClassifier(n_neighbors = 3) 
+scores = cross_val_score(knn, p1_train, p2_train, cv=10, scoring = "accuracy") 
+print("Scores:\n", pd.Series(scores))
+print("Mean:", scores.mean())
+print("S_Deviation:", scores.std())
+linear_svc = LinearSVC() 
+linear_svc.fit(p1_train, p2_train) 
+pred = linear_svc.predict(X_test) 
+acc_linear_svc = round(linear_svc.score(p1_train, p2_train) * 100, 2) 
+print("Linear SVC accuracy =", round(acc_linear_svc,2,), "%") 
+print(pred.shape) 
+print(pred)
+submission = pd.DataFrame({ "PassengerId": test_df["PassengerId"], "Survived": pred })
+submission.to_csv('SVM-TitanicSurvival.csv', index=False)
+linear_svc = LinearSVC() 
+scores = cross_val_score(linear_svc, p1_train, p2_train, cv=10, scoring = "accuracy") 
+print("Scores:\n", pd.Series(scores)) 
+print("Mean:", scores.mean()) 
+print("S_Deviation:", scores.std())
